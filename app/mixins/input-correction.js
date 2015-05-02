@@ -92,10 +92,11 @@ export default Ember.Mixin.create({
 						// Ensure clipboard content is number
 						var contentBefore = context.get('value');
 						context.$().on('paste',function(e) {
-						    e.preventDefault();
-						    var text = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
-							if (Number(text) !== NaN) {
-								context.set('value',Number(text));
+							e.preventDefault();
+							var text = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
+							var cleanText = text.match(/\d+(\.\d+)?/g).join('');
+							if (Number(cleanText) !== NaN) {
+								context.set('value',Number(cleanText));
 							} else {
 								// console.log('re-instating context: %s', contentBefore);
 								context.set('value',contentBefore);
