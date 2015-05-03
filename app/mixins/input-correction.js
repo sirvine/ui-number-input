@@ -130,12 +130,13 @@ export default Ember.Mixin.create({
 						context.$().on('paste',function(e) {
 						    e.preventDefault();
 						    var text = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
-							if (Number(text) !== NaN ) {
-								if (Number(text) % 1 === 0) {
-									context.set('value',Number(text));
+							var cleanText = text.match(/\d+(\.\d+)?/g).join('');
+							if (Number(cleanText) !== NaN ) {
+								if (Number(cleanText) % 1 === 0) {
+									context.set('value',Number(cleanText));
 								} else {
 									// strip off the non integer component
-									context.set('value',Math.floor(Number(text)));
+									context.set('value',Math.floor(Number(cleanText)));
 									context.addMessageQueue('Value pasted was numeric but not an integer. Only integer component kept.', {expiry: 2000, type: 'info'});
 								}
 
@@ -146,6 +147,8 @@ export default Ember.Mixin.create({
 							context.$().off('paste');
 						});
 					}
+					// Block any key press that is modified by shiftKey
+					if (event.shiftKey) { return false; }
 					return true;
 				} else {
 					context.addMessageQueue('Only numeric characters are allowed.', {expiry: 2000, type: 'warning'});
