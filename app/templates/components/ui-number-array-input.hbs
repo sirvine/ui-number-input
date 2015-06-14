@@ -1,15 +1,15 @@
 <div class="number-array">
-	{{#each item in arrayElements}}
+	{{#each arrayElements as |item|}}
 		<span class="number-item">
-			{{ui-number-input 
-				value=item.value 
-				align=item.align 
-				placeholder=item.placeholder 
-				size=item.size 
-				min=item.min 
-				max=item.max 
-				correctionRules=correctionRules 
-				status=item.status 
+			{{ui-number-input
+				value=item.value
+				align=item.align
+				placeholder=item.placeholder
+				size=item.size
+				min=item.min
+				max=item.max
+				correctionRules=correctionRules
+				status=item.status
 				statusVisualize=item.statusVisualize
 			}}
 		</span>
