@@ -105,8 +105,10 @@ export default Ember.Mixin.create({
 							context.$().off('paste');
 						});
 					}
-					// Block any key press that is modified by shiftKey
-					if (event.shiftKey) { return false; }
+					// Block any key press that is modified by shiftKey, except arrowKeys, tab, ctrl, alt/option or carriage return
+					if (event.shiftKey && [37, 38, 39, 40, 13, 9, 17, 18].indexOf(keyCode) > -1) {
+						return false;
+					}
 					return true;
 				} else {
 					context.addMessageQueue('Only numeric characters are allowed.', {expiry: 2000, type: 'warning'});
